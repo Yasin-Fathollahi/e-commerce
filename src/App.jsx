@@ -7,25 +7,27 @@ import ProductDetailsPage, {
 } from './pages/ProductDetails.jsx';
 import ErrorPage from './pages/Error.jsx';
 import NavigationRootLayout from './pages/NavigationRoot.jsx';
+import CartPage from './pages/Cart.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: 'shop',
         element: <NavigationRootLayout />,
 
         children: [
-          { index: true, element: <ShopPage />, loader: shopLoader },
+          { path: 'shop', element: <ShopPage />, loader: shopLoader },
           {
-            path: ':productId',
+            path: 'shop/:productId',
             element: <ProductDetailsPage />,
             loader: productDetailsLoader,
           },
+          { path: 'cart', element: <CartPage /> },
         ],
       },
     ],

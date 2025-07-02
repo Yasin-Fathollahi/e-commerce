@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const magnifierIcon = (
   <svg
@@ -67,28 +67,53 @@ const chevDownIcon = (
   </svg>
 );
 
-export default function MainNavigation() {
+export default function MainNavigation({ homePageActive = false }) {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+  const isShop = location.pathname === '/shop';
+  const isCart = location.pathname === '/cart';
+  const isProfile = location.pathname === '/profile';
+  const isSearch = location.pathname === '/search';
   return (
     <>
-      <nav className="flex justify-between pt-4 px-4">
-        <div className="flex gap-4">
-          <NavLink to="/" className="text-xl font-playfair">
+      <nav className="flex justify-between pt-4 px-4 font-playfair">
+        <ul className="flex gap-4">
+          {isHome && (
+            <li>
+              <NavLink to="/" className="text-xl font-bold hover:underline">
+                CASTELLION
+              </NavLink>
+            </li>
+          )}
+          <li>
+            {!isShop && (
+              <NavLink to="/shop" className="text-xl hover:underline">
+                SHOP
+              </NavLink>
+            )}
+          </li>
+        </ul>
+        {!isHome && (
+          <NavLink to="/" className="text-4xl font-bold tracking-wide">
             CASTELLION
           </NavLink>
-          <NavLink to="/shop" className="text-xl">
-            SHOP
-          </NavLink>
-        </div>
+        )}
         <ul className="flex gap-4">
-          <li>
-            <NavLink to="/shop">{cartIcon}</NavLink>
-          </li>
-          <li>
-            <NavLink to="/profile">{profileIcon}</NavLink>
-          </li>
-          <li>
-            <NavLink to="search">{magnifierIcon}</NavLink>
-          </li>
+          {!isCart && (
+            <li>
+              <NavLink to="/cart">{cartIcon}</NavLink>
+            </li>
+          )}
+          {!isProfile && (
+            <li>
+              <NavLink to="/profile">{profileIcon}</NavLink>
+            </li>
+          )}
+          {!isSearch && (
+            <li>
+              <NavLink to="search">{magnifierIcon}</NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </>
