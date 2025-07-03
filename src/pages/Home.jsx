@@ -11,7 +11,7 @@ export default function HomePage() {
         className="grow-1 bg-cover bg-center flex flex-col"
         style={{ backgroundImage: `url(${heroImg})` }}
       >
-        <MainNavigation homePageActive />
+        <MainNavigation />
         <div className=" flex justify-center items-center grow-1 uppercase">
           <div>
             <h1 className="text-9xl text-white tracking-[0.6em] font-semibold mb-8">

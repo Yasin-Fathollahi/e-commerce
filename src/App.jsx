@@ -8,18 +8,21 @@ import ProductDetailsPage, {
 import ErrorPage from './pages/Error.jsx';
 import NavigationRootLayout from './pages/NavigationRoot.jsx';
 import CartPage from './pages/Cart.jsx';
+import AuthPage, { action as authAction } from './pages/Auth.jsx';
+import { tokenLoader } from './util/auth.js';
+import OrdersPage from './pages/Orders.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
-
+    id: 'root',
+    loader: tokenLoader,
     children: [
       { index: true, element: <HomePage /> },
       {
         element: <NavigationRootLayout />,
-
         children: [
           { path: 'shop', element: <ShopPage />, loader: shopLoader },
           {
@@ -28,6 +31,12 @@ const router = createBrowserRouter([
             loader: productDetailsLoader,
           },
           { path: 'cart', element: <CartPage /> },
+          {
+            path: 'auth',
+            element: <AuthPage />,
+            action: authAction,
+          },
+          { path: '/orders', element: <OrdersPage /> },
         ],
       },
     ],

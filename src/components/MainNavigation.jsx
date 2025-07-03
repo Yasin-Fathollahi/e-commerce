@@ -1,4 +1,5 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useRouteLoaderData } from 'react-router-dom';
+import { logout } from '../supabase.js';
 
 const magnifierIcon = (
   <svg
@@ -50,55 +51,58 @@ const profileIcon = (
   </svg>
 );
 
-const chevDownIcon = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className="size-6"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="m19.5 8.25-7.5 7.5-7.5-7.5"
-    />
-  </svg>
-);
+function handleLogout() {
+  logout();
+}
 
-export default function MainNavigation({ homePageActive = false }) {
-  const location = useLocation();
-  const isHome = location.pathname === '/';
-  const isShop = location.pathname === '/shop';
-  const isCart = location.pathname === '/cart';
-  const isProfile = location.pathname === '/profile';
-  const isSearch = location.pathname === '/search';
+export default function MainNavigation() {
+  const token = useRouteLoaderData('root');
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
+  const isShop = pathname === '/shop';
+  const isCart = pathname === '/cart';
+  const isProfile = pathname === '/profile';
+  const isSearch = pathname === '/search';
+  const isAuth = pathname === '/auth';
   return (
     <>
-      <nav className="flex justify-between pt-4 px-4 font-playfair">
+      <nav className="flex justify-between pt-4 px-4 font-playfair uppercase">
         <ul className="flex gap-4">
           {isHome && (
             <li>
               <NavLink to="/" className="text-xl font-bold hover:underline">
-                CASTELLION
+                castellion
               </NavLink>
             </li>
           )}
           <li>
             {!isShop && (
               <NavLink to="/shop" className="text-xl hover:underline">
-                SHOP
+                shop
               </NavLink>
             )}
           </li>
         </ul>
         {!isHome && (
           <NavLink to="/" className="text-4xl font-bold tracking-wide">
-            CASTELLION
+            castellion
           </NavLink>
         )}
         <ul className="flex gap-4">
+          <li>
+            {!isAuth && !token ? (
+              <NavLink to="/auth" className="text-xl font-bold hover:underline">
+                login
+              </NavLink>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="text-xl font-bold hover:underline hover:cursor-pointer tracking-wider uppercase"
+              >
+                logout
+              </button>
+            )}
+          </li>
           {!isCart && (
             <li>
               <NavLink to="/cart">{cartIcon}</NavLink>
@@ -106,7 +110,9 @@ export default function MainNavigation({ homePageActive = false }) {
           )}
           {!isProfile && (
             <li>
-              <NavLink to="/profile">{profileIcon}</NavLink>
+              <NavLink to={token ? '/orders' : '/auth?mode=login'}>
+                {profileIcon}
+              </NavLink>
             </li>
           )}
           {!isSearch && (
