@@ -1,5 +1,9 @@
-import { NavLink, useLocation, useRouteLoaderData } from 'react-router-dom';
-import { logout } from '../supabase.js';
+import {
+  NavLink,
+  useLocation,
+  useRouteLoaderData,
+  Form,
+} from 'react-router-dom';
 
 const magnifierIcon = (
   <svg
@@ -51,12 +55,10 @@ const profileIcon = (
   </svg>
 );
 
-function handleLogout() {
-  logout();
-}
-
 export default function MainNavigation() {
   const token = useRouteLoaderData('root');
+  const expired = token === 'EXPIRED';
+
   const { pathname } = useLocation();
   const isHome = pathname === '/';
   const isShop = pathname === '/shop';
@@ -90,17 +92,17 @@ export default function MainNavigation() {
         )}
         <ul className="flex gap-4">
           <li>
-            {!isAuth && !token ? (
+            {token && !expired && (
+              <Form action="/logout" method="post">
+                <button className="text-xl font-bold hover:underline hover:cursor-pointer tracking-wider uppercase">
+                  logout
+                </button>
+              </Form>
+            )}
+            {!isAuth && (!token || expired) && (
               <NavLink to="/auth" className="text-xl font-bold hover:underline">
                 login
               </NavLink>
-            ) : (
-              <button
-                onClick={handleLogout}
-                className="text-xl font-bold hover:underline hover:cursor-pointer tracking-wider uppercase"
-              >
-                logout
-              </button>
             )}
           </li>
           {!isCart && (
@@ -108,9 +110,9 @@ export default function MainNavigation() {
               <NavLink to="/cart">{cartIcon}</NavLink>
             </li>
           )}
-          {!isProfile && (
+          {!isProfile && !isAuth && (
             <li>
-              <NavLink to={token ? '/orders' : '/auth?mode=login'}>
+              <NavLink to={token && !expired ? '/orders' : '/auth?mode=login'}>
                 {profileIcon}
               </NavLink>
             </li>

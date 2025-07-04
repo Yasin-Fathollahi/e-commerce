@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from 'react-router-dom';
 import RootLayout from './pages/Root.jsx';
 import HomePage from './pages/Home.jsx';
 import ShopPage, { loader as shopLoader } from './pages/Shop.jsx';
@@ -9,8 +13,9 @@ import ErrorPage from './pages/Error.jsx';
 import NavigationRootLayout from './pages/NavigationRoot.jsx';
 import CartPage from './pages/Cart.jsx';
 import AuthPage, { action as authAction } from './pages/Auth.jsx';
-import { tokenLoader } from './util/auth.js';
+import { checkAuthLoader, tokenLoader } from './util/auth.js';
 import OrdersPage from './pages/Orders.jsx';
+import { logout } from './pages/Logout.js';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +26,7 @@ const router = createBrowserRouter([
     loader: tokenLoader,
     children: [
       { index: true, element: <HomePage /> },
+      { path: 'logout', action: logout, element: <Navigate to="/" /> },
       {
         element: <NavigationRootLayout />,
         children: [
@@ -36,7 +42,7 @@ const router = createBrowserRouter([
             element: <AuthPage />,
             action: authAction,
           },
-          { path: '/orders', element: <OrdersPage /> },
+          { path: '/orders', element: <OrdersPage />, loader: checkAuthLoader },
         ],
       },
     ],
