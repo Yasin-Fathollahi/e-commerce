@@ -1,8 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL,
-  process.env.VITE_SUPABASE_ANON_KEY
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
 );
+
+console.log('URL:', import.meta.env.VITE_SUPABASE_URL);
+console.log('KEY:', import.meta.env.VITE_SUPABASE_ANON_KEY);
 
 async function signup(credentials) {
   return await supabase.auth.signUp(credentials);
