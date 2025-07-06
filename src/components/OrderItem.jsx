@@ -1,28 +1,28 @@
+import { formatter, dateFormatter } from '../util/helpers.js';
+import PurchasedItem from './PurchasedItem.jsx';
 export default function OrderItem({ order, index }) {
   const { items, total, time, shippingPrice } = order;
+  const orderTime = new Date(time);
 
   return (
-    <li className="grid grid-cols-2">
+    <li className="border-b-stone-300 border-b-2 pt-8 text-xs sm:text-sm md:text-lg">
+      <div className="grid grid-cols-2 mb-8">
+        <div className="flex items-center">
+          <p className="font-semibold text-center">order info</p>
+        </div>
+        <div className="flex flex-col gap-1">
+          <p>Order number: {index}</p>
+          <p>Date: {dateFormatter.format(orderTime)}</p>
+          <p>shipping: {shippingPrice}</p>
+          <p>Total: {formatter.format(total)}</p>
+        </div>
+      </div>
+
       <ul>
-        <h2>{index}</h2>
         {items.map((item) => (
-          <li key={item.id} className="flex justify-between">
-            <div>
-              <img src={item.image} alt={item.title} className="w-1/4" />
-            </div>
-            <div>
-              <p>{item.title}</p>
-              <p>{item.quantity}</p>
-              <p>{item.price}</p>
-            </div>
-          </li>
+          <PurchasedItem key={item.id} item={item} />
         ))}
       </ul>
-      <div>
-        <p>{time}</p>
-        <p>{shippingPrice}</p>
-        <p>{total}</p>
-      </div>
     </li>
   );
 }

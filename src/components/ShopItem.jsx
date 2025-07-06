@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { cartActions } from '../store/cartSlice.js';
+import { formatter, titleFormatter } from '../util/helpers.js';
 export default function ShopItem({ item }) {
   const { image, title, price, id } = item;
   const dispatch = useDispatch();
@@ -19,17 +20,24 @@ export default function ShopItem({ item }) {
     e.stopPropagation();
     dispatch(cartActions.deleteItem(item.id));
   }
+
   return (
     <li className="transition-all duration-100 hover:shadow-xl group">
       <Link to={String(id)}>
-        <div className=" flex flex-col h-full">
+        <div className=" flex flex-col h-full gap-4">
           <div className="flex justify-center items-center grow">
-            <img src={image} alt={title} className="w-1/3" />
+            <img src={image} alt={title} className="w-3/4 sm:w-1/2 md:w-3/5" />
           </div>
-          <div className="mt-auto p-8">
-            <p className="mb-4">{title}</p>
+          <div className="mt-auto lg:px-4 lg:pb-8 text-center md:text-left">
+            <p className="mb-2 sm:mb-4 lg:hidden">{titleFormatter(title, 4)}</p>
+            <p className="mb-2 sm:mb-4 hidden lg:block">
+              {titleFormatter(title, 6)}
+            </p>
             <div className="flex justify-between">
-              <p className="font-semibold text-xl">${price}</p>
+              <p className="font-semibold text-md sm:text-lg lg:text-xl">
+                {formatter.format(price)}
+              </p>
+
               <div className="flex items-center gap-2 font-medium">
                 <button
                   onClick={handleDecrease}
@@ -42,7 +50,7 @@ export default function ShopItem({ item }) {
                 <p className="hidden group-hover:block">
                   {curItemQuantity > 0 && curItemQuantity}
                 </p>
-                <p className="block group-hover:hidden text-xl ">
+                <p className="block group-hover:hidden sm:text-xl ">
                   {curItemQuantity > 0 && curItemQuantity + 'x'}
                 </p>
                 <button

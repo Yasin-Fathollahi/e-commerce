@@ -12,7 +12,7 @@ const magnifierIcon = (
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    className="size-6"
+    className="size-4 sm:size-5 lg:size-6"
   >
     <path
       strokeLinecap="round"
@@ -28,7 +28,7 @@ const cartIcon = (
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    className="size-6"
+    className="size-4 sm:size-5 lg:size-6"
   >
     <path
       strokeLinecap="round"
@@ -45,7 +45,7 @@ const profileIcon = (
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    className="size-6"
+    className="size-4 sm:size-5 lg:size-6"
   >
     <path
       strokeLinecap="round"
@@ -60,40 +60,51 @@ export default function MainNavigation() {
   const expired = token === 'EXPIRED';
 
   const { pathname } = useLocation();
+
   const isHome = pathname === '/';
   const isShop = pathname === '/shop';
   const isCart = pathname === '/cart';
   const isProfile = pathname === '/profile';
   const isSearch = pathname === '/search';
   const isAuth = pathname === '/auth';
+
   return (
-    <nav className="flex justify-between pt-4 px-4 font-playfair uppercase">
-      <ul className="flex gap-4">
-        {isHome && (
-          <li>
-            <NavLink to="/" className="text-xl font-bold hover:underline">
-              castellion
-            </NavLink>
-          </li>
-        )}
-        <li>
-          {!isShop && (
-            <NavLink to="/shop" className="text-xl hover:underline">
-              shop
-            </NavLink>
+    <nav
+      className={`flex justify-between px-4 font-playfair uppercase items-center ${
+        !isHome ? 'bg-white sticky top-0 w-full py-4' : 'pt-4'
+      }`}
+    >
+      {!isShop && (
+        <ul className="flex gap-4 items-center">
+          {isHome && (
+            <li>
+              <p className="text-sm sm:text-lg md:text-xl font-bold hover:cursor-default">
+                castellion
+              </p>
+            </li>
           )}
-        </li>
-      </ul>
+          <li>
+            {!isShop && (
+              <NavLink
+                to="/shop"
+                className="text-sm sm:text-lg md:text-xl hover:underline font-bold"
+              >
+                shop
+              </NavLink>
+            )}
+          </li>
+        </ul>
+      )}
       {!isHome && (
-        <NavLink to="/" className="text-4xl font-bold tracking-wide">
+        <NavLink to="/" className="text-xl lg:text-4xl font-bold tracking-wide">
           castellion
         </NavLink>
       )}
-      <ul className="flex gap-4">
-        <li>
+      <ul className="flex items-center gap-4">
+        {/* <li>
           {token && !expired && (
             <Form action="/logout" method="post">
-              <button className="text-xl font-bold hover:underline hover:cursor-pointer tracking-wider uppercase">
+              <button className="text-sm md:text-xl font-bold hover:underline hover:cursor-pointer tracking-wider uppercase">
                 logout
               </button>
             </Form>
@@ -101,12 +112,12 @@ export default function MainNavigation() {
           {!isAuth && (!token || expired) && (
             <NavLink
               to="/auth?mode=login"
-              className="text-xl font-bold hover:underline"
+              className="text-sm md:text-xl font-bold hover:underline"
             >
               login
             </NavLink>
           )}
-        </li>
+        </li> */}
         {!isCart && (
           <li>
             <NavLink to="/cart">{cartIcon}</NavLink>
@@ -119,11 +130,11 @@ export default function MainNavigation() {
             </NavLink>
           </li>
         )}
-        {/* {!isSearch && (
-            <li>
-              <NavLink to="search">{magnifierIcon}</NavLink>
-            </li>
-          )} */}
+        {!isSearch && (
+          <li>
+            <NavLink to="search">{magnifierIcon}</NavLink>
+          </li>
+        )}
       </ul>
     </nav>
   );

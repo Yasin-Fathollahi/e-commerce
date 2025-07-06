@@ -53,7 +53,7 @@ export default function ShoppingCart() {
   return (
     <main className="flex items-center flex-col uppercase">
       <div className="mt-24 w-2/3">
-        <div className="flex gap-2 justify-center font-bold tracking-wider pb-4 border-b-stone-300 border-solid border-b-2">
+        <div className="flex justify-center gap-2 text-sm lg:text-2xl font-bold tracking-wider pb-2 lg:pb-4 border-b-stone-300 border-b-2 ">
           <h1>shopping cart</h1>
           <p>({cartQuantity})</p>
         </div>
@@ -78,9 +78,9 @@ export default function ShoppingCart() {
           {token === 'EXPIRED' && (
             <Link
               to="/auth?mode=login"
-              className="flex justify-center items-center w-full h-8 text-white bg-black text-sm tracking-wide mt-12 font-medium disabled:bg-stone-300 rounded-xs"
+              className="flex justify-center items-center w-full text-white bg-black text-xs tracking-wide mt-12 font-medium disabled:bg-stone-300 rounded-xs py-2 px-4 "
             >
-              Please login before registering your order
+              Please login before registering an order
             </Link>
           )}
           {token !== 'EXPIRED' && (
