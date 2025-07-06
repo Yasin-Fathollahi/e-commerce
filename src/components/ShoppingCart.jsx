@@ -1,4 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { cartActions } from '../store/cartSlice.js';
+import { Link, useRouteLoaderData, useNavigate } from 'react-router-dom';
 import americanExpressLogo from '../assets/images/amercanexpress.png';
 import applePayLogo from '../assets/images/applepay.png';
 import masterCardLogo from '../assets/images/mastercard.png';
@@ -11,6 +13,9 @@ const cardLogoClasses =
   'w-18 h-full rounded-md border-2 border-stone-200 flex justify-center items-center';
 
 export default function ShoppingCart() {
+  const token = useRouteLoaderData('root');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const cartQuantity = cart.reduce(
     (total, curItem) => total + curItem.quantity,
@@ -30,6 +35,19 @@ export default function ShoppingCart() {
     } else {
       shippingPrice = formatter.format(20);
     }
+  }
+
+  function handleOrder() {
+    const orderData = {
+      items: cart,
+      total: cartTotalValue,
+      time: new Date(),
+      shippingPrice,
+    };
+    const prevOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    localStorage.setItem('orders', JSON.stringify([...prevOrders, orderData]));
+    dispatch(cartActions.clearCart());
+    navigate('/success?event=order');
   }
 
   return (
@@ -57,14 +75,25 @@ export default function ShoppingCart() {
             </p>
           </div>
 
-          <button
-            disabled={!cartQuantity}
-            className="w-full h-8 text-white bg-black text-sm tracking-wide mt-12 font-medium disabled:bg-stone-300"
-          >
-            {cartQuantity > 0
-              ? 'CASH REGISTER'
-              : 'Please add some items to your cart first.'}
-          </button>
+          {token === 'EXPIRED' && (
+            <Link
+              to="/auth?mode=login"
+              className="flex justify-center items-center w-full h-8 text-white bg-black text-sm tracking-wide mt-12 font-medium disabled:bg-stone-300 rounded-xs"
+            >
+              Please login before registering your order
+            </Link>
+          )}
+          {token !== 'EXPIRED' && (
+            <button
+              onClick={handleOrder}
+              disabled={!cartQuantity}
+              className="w-full h-8 text-white bg-black text-sm tracking-wide mt-12 font-medium disabled:bg-stone-300 hover:cursor-pointer"
+            >
+              {cartQuantity > 0
+                ? 'CASH REGISTER'
+                : 'Please add some items to your cart first.'}
+            </button>
+          )}
 
           {/* LOGOS */}
           <div className="flex gap-2 h-8  grayscale-100 mt-4">

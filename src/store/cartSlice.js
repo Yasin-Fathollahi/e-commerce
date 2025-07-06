@@ -31,6 +31,7 @@ const cartSlice = createSlice({
 
       state[currentIndex].quantity--;
     },
+    clearCart: () => [],
   },
 });
 

@@ -16,6 +16,7 @@ import AuthPage, { action as authAction } from './pages/Auth.jsx';
 import { checkAuthLoader, tokenLoader } from './util/auth.js';
 import OrdersPage from './pages/Orders.jsx';
 import { logout } from './pages/Logout.js';
+import SuccessPage from './pages/Success.jsx';
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
     loader: tokenLoader,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'logout', action: logout, element: <Navigate to="/" /> },
+      { path: 'logout', action: logout },
       {
         element: <NavigationRootLayout />,
         children: [
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
           { path: '/orders', element: <OrdersPage />, loader: checkAuthLoader },
         ],
       },
+      { path: 'success', element: <SuccessPage /> },
     ],
   },
 ]);

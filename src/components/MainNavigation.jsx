@@ -67,63 +67,64 @@ export default function MainNavigation() {
   const isSearch = pathname === '/search';
   const isAuth = pathname === '/auth';
   return (
-    <>
-      <nav className="flex justify-between pt-4 px-4 font-playfair uppercase">
-        <ul className="flex gap-4">
-          {isHome && (
-            <li>
-              <NavLink to="/" className="text-xl font-bold hover:underline">
-                castellion
-              </NavLink>
-            </li>
-          )}
+    <nav className="flex justify-between pt-4 px-4 font-playfair uppercase">
+      <ul className="flex gap-4">
+        {isHome && (
           <li>
-            {!isShop && (
-              <NavLink to="/shop" className="text-xl hover:underline">
-                shop
-              </NavLink>
-            )}
+            <NavLink to="/" className="text-xl font-bold hover:underline">
+              castellion
+            </NavLink>
           </li>
-        </ul>
-        {!isHome && (
-          <NavLink to="/" className="text-4xl font-bold tracking-wide">
-            castellion
-          </NavLink>
         )}
-        <ul className="flex gap-4">
+        <li>
+          {!isShop && (
+            <NavLink to="/shop" className="text-xl hover:underline">
+              shop
+            </NavLink>
+          )}
+        </li>
+      </ul>
+      {!isHome && (
+        <NavLink to="/" className="text-4xl font-bold tracking-wide">
+          castellion
+        </NavLink>
+      )}
+      <ul className="flex gap-4">
+        <li>
+          {token && !expired && (
+            <Form action="/logout" method="post">
+              <button className="text-xl font-bold hover:underline hover:cursor-pointer tracking-wider uppercase">
+                logout
+              </button>
+            </Form>
+          )}
+          {!isAuth && (!token || expired) && (
+            <NavLink
+              to="/auth?mode=login"
+              className="text-xl font-bold hover:underline"
+            >
+              login
+            </NavLink>
+          )}
+        </li>
+        {!isCart && (
           <li>
-            {token && !expired && (
-              <Form action="/logout" method="post">
-                <button className="text-xl font-bold hover:underline hover:cursor-pointer tracking-wider uppercase">
-                  logout
-                </button>
-              </Form>
-            )}
-            {!isAuth && (!token || expired) && (
-              <NavLink to="/auth" className="text-xl font-bold hover:underline">
-                login
-              </NavLink>
-            )}
+            <NavLink to="/cart">{cartIcon}</NavLink>
           </li>
-          {!isCart && (
-            <li>
-              <NavLink to="/cart">{cartIcon}</NavLink>
-            </li>
-          )}
-          {!isProfile && !isAuth && (
-            <li>
-              <NavLink to={token && !expired ? '/orders' : '/auth?mode=login'}>
-                {profileIcon}
-              </NavLink>
-            </li>
-          )}
-          {!isSearch && (
+        )}
+        {!isProfile && !isAuth && (
+          <li>
+            <NavLink to={token && !expired ? '/orders' : '/auth?mode=login'}>
+              {profileIcon}
+            </NavLink>
+          </li>
+        )}
+        {/* {!isSearch && (
             <li>
               <NavLink to="search">{magnifierIcon}</NavLink>
             </li>
-          )}
-        </ul>
-      </nav>
-    </>
+          )} */}
+      </ul>
+    </nav>
   );
 }

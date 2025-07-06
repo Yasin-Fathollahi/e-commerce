@@ -3,5 +3,5 @@ import { logout as supabaseLogout } from '../supabase.js';
 export function logout() {
   supabaseLogout();
   localStorage.removeItem('session');
-  redirect('/');
+  return redirect('/');
 }

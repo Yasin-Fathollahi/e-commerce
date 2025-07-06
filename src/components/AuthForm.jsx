@@ -17,8 +17,8 @@ export default function AuthForm({ isSubmitting, error, targetMode }) {
         className="flex flex-col justify-between h-fit p-8 w-1/3"
       >
         <div className="flex flex-col gap-4">
-          <Input type="text" id="email" label="email" />
-          <Input type="passowrd" id="password" label="password" />
+          <Input type="email" id="email" label="email" />
+          <Input type="password" id="password" label="password" />
           {error && (
             <div className="flex flex-col gap-2 text-sm font-semibold text-red-500">
               <p>{error}</p>
