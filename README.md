@@ -42,12 +42,3 @@
 | **LocalStorage** | Persistent order history                     |
 | **Git**          | Version control                              |
 
----
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/castellion.git
-cd castellion
