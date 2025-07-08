@@ -13,10 +13,10 @@ export default function HomePage() {
       >
         <MainNavigation />
         <div className="text-center uppercase flex flex-col grow-1 justify-center mb-24 sm:mb-0">
-          <h1 className="text-4xl font-bold tracking-[0.35em] mb-4 sm:text-5xl md:text-6xl lg:text-9xl lg:font-semibold lg:tracking-[0.6em] lg:mb-8  text-white">
+          <h1 className="text-4xl font-bold tracking-[0.2em] mb-4 sm:text-5xl sm:tracking-[0.3em] md:text-6xl md:tracking-[0.4em] lg:text-7xl lg:font-semibold lg:tracking-[0.6em] lg:mb-8  text-white">
             castellion
           </h1>
-          <p className="text-sm sm:text-md md:text-lg lg:text-3xl tracking-wide sm:tracking-wider lg:tracking-widest font-md text-white">
+          <p className="text-xs sm:text-base md:text-lg lg:text-3xl  sm:tracking-widest font-md text-white">
             If You Can Think It, We Might Sell It
           </p>
         </div>

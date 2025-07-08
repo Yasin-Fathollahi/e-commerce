@@ -8,7 +8,7 @@ export default function AuthForm({ isSubmitting, error, targetMode }) {
     navigate('/');
   }
   return (
-    <main className="h-screen flex justify-center uppercase text-semibold">
+    <main className="flex justify-center uppercase text-semibold grow">
       <div className="flex flex-col items-center mt-20 sm:w-2/3 sm:mt-24 lg:w-1/2 px-8">
         <h1 className="text-sm sm:text-lg lg:text-2xl font-bold tracking-wider pb-2 lg:pb-4 border-b-stone-300 border-b-2 text-center w-full">
           {targetMode === 'signup' ? 'login' : 'signup'}

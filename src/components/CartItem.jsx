@@ -1,6 +1,6 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { cartActions } from '../store/cartSlice';
-import { formatter } from '../util/helpers.js';
+import { formatter, titleFormatter } from '../util/helpers.js';
 export default function CartItem({ item }) {
   const { title, image, quantity, price } = item;
   const dispatch = useDispatch();
@@ -21,15 +21,18 @@ export default function CartItem({ item }) {
       </div>
       <div className="grow flex justify-between gap-8 w-4/5">
         <ul className="flex flex-col gap-4">
-          <li>{title}</li>
+          <li>{titleFormatter(title, 6)}</li>
           <li className="flex gap-4">
             <p>QUANTITY</p>
             <div className="flex gap-1 items-center">
-              <button className="hover:cursor-pointer" onClick={handleDecrease}>
+              <button
+                className="hover:cursor-pointer p-1"
+                onClick={handleDecrease}
+              >
                 -
               </button>
-              <span className="text-sm">{quantity}</span>
-              <button className="hover:cursor-pointer" onClick={handleAdd}>
+              <span>{quantity}</span>
+              <button className="hover:cursor-pointer p-1" onClick={handleAdd}>
                 +
               </button>
             </div>

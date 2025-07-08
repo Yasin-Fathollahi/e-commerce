@@ -6,31 +6,41 @@ export default function ProductDetailsPage() {
   const { image, title, price, description, id } = item;
   const cart = useSelector((state) => state.cart);
   const alreadyInCart = cart.find((item) => item.id === id);
+  const buttonClasses =
+    'hover:cursor-pointer font-medium uppercase disabled:hover:cursor-default no-underline) w-full h-8 text-white bg-black text-sm tracking-wide disabled:bg-stone-300 mt-auto sm:mt-0';
 
   const dispatch = useDispatch();
   function handleAdd() {
     dispatch(cartActions.addItem(item));
   }
   return (
-    <main className="grid grid-cols-2 h-screen">
-      <div className="flex justify-center items-center">
-        <img src={image} alt={title} className="w-1/3" />
-      </div>
-      <div className="flex justify-center items-center">
-        <div className="flex flex-col gap-4">
-          <h2 className="text-3xl">{title}</h2>
-          <p className="text-xl font-medium">${price}</p>
-          <p className="text-sm w-2/3 text-stone-600">{description}</p>
-          <button
-            disabled={alreadyInCart}
-            onClick={handleAdd}
-            className={`w-fit ${
-              !alreadyInCart ? 'underline' : undefined
-            } hover:cursor-pointer font-medium uppercase disabled:text-stone-400 disabled:hover:cursor-default no-underline) `}
-          >
-            {alreadyInCart ? 'Item is added to cart' : 'ADD TO CART'}
-          </button>
+    <main className=" flex justify-center grow">
+      <div className="flex flex-col sm:grid grid-cols-2 sm:w-4/5 ">
+        <div className="flex justify-center items-center my-14 sm:my-0 ">
+          <img src={image} alt={title} className="w-1/3 sm:w-1/2 lg:w-1/4" />
         </div>
+        <div className="flex items-center p-8 sm:p-0">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-xl lg:text-3xl">{title}</h1>
+            <p className="text-xl font-medium">${price}</p>
+            <p className="text-sm sm:w-2/3 text-stone-600">{description}</p>
+            <button
+              disabled={alreadyInCart}
+              onClick={handleAdd}
+              className={buttonClasses + ' hidden sm:inline-block'}
+            >
+              {alreadyInCart ? 'Item is added to cart' : 'ADD TO CART'}
+            </button>
+          </div>
+        </div>
+        <button
+          disabled={alreadyInCart}
+          onClick={handleAdd}
+          className={buttonClasses + ' sm:hidden'}
+        >
+          {' '}
+          {alreadyInCart ? 'Item is added to cart' : 'ADD TO CART'}
+        </button>
       </div>
     </main>
   );
